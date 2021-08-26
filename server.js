@@ -9,12 +9,15 @@ const errHandler = require("./middlewares/errorMiddlewares/errHandler");
 const app = express();
 app.use(express.json());
 
-//routes
-const users = require("./routes/user/userRouter");
-
 //server
 app.listen(process.env.PORT || 2001, () => console.log("server started"));
 
+//routes
+const users = require("./routes/users/userRouter");
+const login = require("./routes/authUsers/loginRouter");
+
 app.use("/users", users);
+app.use("/login", login);
+
 app.use(notFound);
 app.use(errHandler);
