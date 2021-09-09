@@ -1,47 +1,41 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
-//db connection
-require("../connection/connection");
-
-const user = new mongoose.Schema(
+const system = new mongoose.Schema(
   {
     name: {
       type: String,
       required: true,
       min: 2,
-      max: 30,
-    },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
+      max: 25,
     },
     password: {
       type: String,
       required: true,
-      min: 5,
+      min: 6,
     },
-    possystems: {
-      type: Array,
-      default: [],
+    type: {
+      type: String,
+      required: true,
     },
-    isAdmin: {
+    isPremium: {
       type: Boolean,
-      default: true,
+      default: false,
     },
-    isAccountActivated: {
+    isActivated: {
       type: Boolean,
       default: true,
     },
   },
-  { timestamps: true }
+  {
+    timestamp: true,
+  }
 );
 
-//pass hashing
-user.pre("save", async function (next) {
+//password hashine
+system.pre("save", async function (next) {
   try {
-    if (this.isModified("password")) {
+    if (isModified(this.password)) {
       this.password = await bcrypt.hash(
         this.password,
         await bcrypt.genSalt(10)
@@ -52,4 +46,4 @@ user.pre("save", async function (next) {
   }
 });
 
-module.exports = mongoose.model("user", user);
+module.exports = mongoose.model("system", system);

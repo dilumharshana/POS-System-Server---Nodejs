@@ -13,11 +13,11 @@ const userLogin = async (req, res) => {
 
   const matchingPassword = await bcrypt.compare(password, userExists.password);
 
-  if (!matchingPassword) return res.status(401).json("Password is incoreect");
+  if (!matchingPassword) return res.status(401).json("Incorrect password !");
 
   const token = generateToken(userExists._doc._id);
 
-  res.status(200).json({ ...userExists._doc, token });
+  res.status(200).json(token);
 };
 
 module.exports = userLogin;
