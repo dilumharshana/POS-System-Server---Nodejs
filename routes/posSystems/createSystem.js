@@ -1,31 +1,38 @@
-const { MongoClient } = require("mongodb");
-
+const { createDb } = require("./createDb");
 require("dotenv").config();
 
-//systemmodel
-const system = require("../../models/posSystemModel");
+const connection = require("../../connection/systemsConnection");
+
+//user Model
+const user = require("../../models/userModel");
 
 const createSystem = async (req, res) => {
   try {
-    //connection
-    const client = new MongoClient(process.env.MONGODB_URL);
-    client.connect();
+    const { name, owner } = req.body;
 
-    const { databases } = await client.db().admin().listDatabases();
-    console.log(databases);
+    //get new db name
+    const newDataBaseName = await createDb();
 
-    let newDbName = Math.floor(Math.random() * 1000000);
+    //settting up new db
+    const con = await connection(newDataBaseName);
 
-    while (
-      databases.some((database) => database.name === newDbName.toString())
-    ) {
-      newDbName = Math.floor(Math.random() * 1000000);
-      console.log(newDbName);
-    }
+    const {
+      models: { system },
+    } = con;
 
-    console.log(`new db name is => ${newDbName}`);
-  } catch (error) {
-    console.log(error);
+    await system.create(req.body);
+
+    con.close();
+
+    //updating user with new db
+
+    const systemOwner = await user.findOne({ _id: owner });
+    systemOwner.possystems.push({ name, id: newDataBaseName });
+    systemOwner.save();
+
+    res.status(200).json("New system created successfully !");
+  } catch (err) {
+    res.status(500).json(err);
   }
 };
 

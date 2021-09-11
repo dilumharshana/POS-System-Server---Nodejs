@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
+require("dotenv").config();
+
 const system = new mongoose.Schema(
   {
     name: {
@@ -46,4 +48,4 @@ system.pre("save", async function (next) {
   }
 });
 
-module.exports = mongoose.model("system", system);
+module.exports = system;
