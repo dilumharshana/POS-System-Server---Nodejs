@@ -1,10 +1,10 @@
 const { createDb } = require("./createDb");
 require("dotenv").config();
 
-const connection = require("../../connection/systemsConnection");
+const connection = require("../../../connection/systemsConnection");
 
 //user Model
-const user = require("../../models/userModel");
+const user = require("../../../models/userModel");
 
 const createSystem = async (req, res) => {
   try {
@@ -27,10 +27,10 @@ const createSystem = async (req, res) => {
     //updating user with new db
 
     const systemOwner = await user.findOne({ _id: owner });
-    systemOwner.possystems.push({ name, id: newDataBaseName });
+    systemOwner.possystems.unshift({ name, id: newDataBaseName });
     systemOwner.save();
 
-    res.status(200).json("New system created successfully !");
+    res.status(200).json("System created successfully !");
   } catch (err) {
     res.status(500).json(err);
   }

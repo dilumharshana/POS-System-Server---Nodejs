@@ -30,7 +30,7 @@ const createDb = async () => {
     await client.connect();
     return newDataBaseName && newDataBaseName;
   } catch (err) {
-    console.log(err);
+    return err;
   } finally {
     client.close();
   }

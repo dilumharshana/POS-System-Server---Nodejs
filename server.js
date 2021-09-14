@@ -24,7 +24,7 @@ const posSystems = require("./routes/posSystems/posSystemRouter");
 
 app.use("/api/users", users);
 app.use("/api/login", login);
-app.use("/api/possystems/", posSystems);
+app.use("/api/possystems", posSystems);
 
 app.use(notFound);
 app.use(errHandler);
