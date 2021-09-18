@@ -6,33 +6,41 @@ const connection = require("../../../connection/systemsConnection");
 //user Model
 const user = require("../../../models/userModel");
 
+let con = null;
+
 const createSystem = async (req, res) => {
   try {
-    const { name, owner } = req.body;
-
     //get new db name
     const newDataBaseName = await createDb();
 
     //settting up new db
-    const con = await connection(newDataBaseName);
+    con = await connection(newDataBaseName);
 
     const {
       models: { system },
     } = con;
 
-    await system.create(req.body);
-
-    con.close();
+    //request body contains name , password and system user id
+    const { name, password } = await system.create(req.body);
 
     //updating user with new db
+    const { owner } = req.body;
+    const Systemowner = await user.findOne({ _id: owner });
+    Systemowner.possystems.unshift({ id: newDataBaseName, name, password });
 
-    const systemOwner = await user.findOne({ _id: owner });
-    systemOwner.possystems.unshift({ name, id: newDataBaseName });
-    systemOwner.save();
+    //recording new db
+    Systemowner.activities.unshift({
+      activity: `Creted new system ${name}`,
+      date: new Date().toDateString(),
+    });
+
+    Systemowner.save();
 
     res.status(200).json("System created successfully !");
   } catch (err) {
     res.status(500).json(err);
+  } finally {
+    con.close();
   }
 };
 

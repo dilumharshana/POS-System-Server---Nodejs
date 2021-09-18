@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+
 require("dotenv").config();
 
 const system = require("../models/posSystemModel");
@@ -18,11 +19,11 @@ const connection = async (url) => {
       }
     );
 
-    con.model("system", system);
+    const systemModel = con.model("system", system);
 
     return con && con;
   } catch (error) {
-    console.log(error);
+    return error;
   }
 };
 

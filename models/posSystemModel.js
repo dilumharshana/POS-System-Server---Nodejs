@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const bcrypt = require("bcrypt");
 require("dotenv").config();
 
 const system = new mongoose.Schema(
@@ -32,5 +32,18 @@ const system = new mongoose.Schema(
     timestamp: true,
   }
 );
+
+system.pre("save", async function () {
+  try {
+    if (this.isModified("password")) {
+      this.password = await bcrypt.hash(
+        this.password,
+        await bcrypt.genSalt(10)
+      );
+    }
+  } catch (error) {
+    return error;
+  }
+});
 
 module.exports = system;

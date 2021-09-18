@@ -26,6 +26,18 @@ const user = new mongoose.Schema(
       type: Array,
       default: [],
     },
+    removedSystems: {
+      type: Array,
+      default: [],
+    },
+    permenentlyRemovedSystems: {
+      type: Array,
+      default: [],
+    },
+    activities: {
+      type: Array,
+      default: [],
+    },
     isAdmin: {
       type: Boolean,
       default: true,
@@ -34,12 +46,16 @@ const user = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    isPremium: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );
 
 //pass hashing
-user.pre("save", async function (next) {
+user.pre("save", async function () {
   try {
     if (this.isModified("password")) {
       this.password = await bcrypt.hash(

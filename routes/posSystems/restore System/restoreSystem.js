@@ -13,7 +13,6 @@ const removeSystem = async (req, res) => {
     const { systemID, _id } = req.body;
 
     //cheking databse availablitity before delete
-
     const { databases } = await client.db().admin().listDatabases();
 
     const availability = databases.some(
@@ -21,40 +20,34 @@ const removeSystem = async (req, res) => {
     );
     if (!availability) return res.status(404).json("System already deleted !");
 
-    //delete system
-    // await client.db(systemID.toString()).dropDatabase();
-
-    //remove system from user pos systems
+    //get system owner
     const owner = await user.findOne({ _id });
     if (!owner) return res.status(404).json("User not found");
 
-    //getting target system information from owner to put into removed systems array
-    const [targetDb] = owner.possystems.filter(
+    //getting target system information from owner to put into current systems array
+    const [{ id, name, password }] = owner.removedSystems.filter(
       (system) => system.id === systemID
     );
 
-    //removeing system from current pos systems array
-    owner.possystems = owner.possystems.filter(
+    //removeing system from removed pos systems array
+    owner.removedSystems = owner.removedSystems.filter(
       (system) => system.id !== systemID
     );
 
-    //adding removed pos system in to user removed systems array
-    owner.removedSystems.unshift({
-      ...targetDb,
-      date: new Date().toDateString(),
-    });
+    //adding restored pos system in to user current systems array
+    owner.possystems.unshift({ id, name, password });
 
-    //recording activities
+    //recording activity
     owner.activities.unshift({
-      activity: `Deleted system ${targetDb.name}`,
+      activity: `Restored system ${name}`,
       date: new Date().toDateString(),
     });
 
     await owner.save();
 
-    res.status(200).json("System deleted successfully !");
+    res.status(200).json("System restored successfully !");
   } catch (error) {
-    return res.status(500).json(error.toString());
+    res.status(500).json(error);
   } finally {
     client.close();
   }

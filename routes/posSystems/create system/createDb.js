@@ -28,6 +28,7 @@ const createDb = async () => {
     //creating databse
     client = new MongoClient(`${NEW_DATABASE_CREATOR_URL}/${newDataBaseName}`);
     await client.connect();
+
     return newDataBaseName && newDataBaseName;
   } catch (err) {
     return err;

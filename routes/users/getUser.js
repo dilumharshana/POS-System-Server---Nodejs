@@ -11,7 +11,7 @@ const getUser = async (req, res) => {
     if (isUserExists) {
       if (isUserExists._doc.isAccountActivated) {
         const { password, ...other } = isUserExists._doc;
-        res.status(200).json(other);
+        return res.status(200).json(other);
       }
       return res.status(500).json("your account is not activated !");
     }
