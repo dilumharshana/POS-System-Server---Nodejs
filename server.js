@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 const corsOption = {
   origin: "http://localhost:3000",
 };
@@ -28,3 +29,4 @@ app.use("/api/possystems", posSystems);
 
 app.use(notFound);
 app.use(errHandler);
+app.use("/api/img", express.static(path.join(__dirname, "public")));

@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const { Binary } = require("mongodb");
 
 //db connection
 require("../connection/connection");
@@ -21,6 +22,10 @@ const user = new mongoose.Schema(
       type: String,
       required: true,
       min: 5,
+    },
+    image: {
+      type: String,
+      default: null,
     },
     possystems: {
       type: Array,
