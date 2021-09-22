@@ -23,7 +23,7 @@ const getProfilePicture = (req, res) => {
     });
   }
 
-  return res.status(500).json("faild to load profile picture");
+  return res.status(200).json(null);
 };
 
 module.exports = getProfilePicture;

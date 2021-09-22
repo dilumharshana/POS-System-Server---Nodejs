@@ -3,11 +3,12 @@ const multer = require("multer");
 
 let storage = multer.diskStorage({
   destination: (req, file, path) => {
-    path(null, "./public/admins/dp");
+    return path(null, "./public/admins/dp");
   },
 
-  filename: (req, file, fname) =>
-    fname(null, req.params.id + path.extname(file.originalname)),
+  filename: (req, file, fname) => {
+    return fname(null, req.params.id + path.extname(file.originalname));
+  },
 });
 
 const uploads = multer({ storage });

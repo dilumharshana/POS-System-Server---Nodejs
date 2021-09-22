@@ -6,7 +6,6 @@ const user = require("../../models/userModel");
 const getUser = async (req, res) => {
   try {
     const { id } = jwt_decode(req.params.id);
-
     const isUserExists = await user.findOne({ _id: id });
     if (isUserExists) {
       if (isUserExists._doc.isAccountActivated) {

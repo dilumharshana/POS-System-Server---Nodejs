@@ -1,16 +1,17 @@
 const user = require("../../models/userModel");
+const path = require("path");
 
 const updateProfilePicture = async (req, res) => {
   try {
-    const user = await user.findOne({ _id: req.params.id });
-    if (!user) return res.status(404).json("User not found !");
+    const owner = await user.findOne({ _id: req.params.id });
+    if (!owner) return res.status(404).json("User not found !");
 
-    user.image = req.file.originalname;
+    owner.image = req.file.originalname;
 
-    await user.save();
-    res.status(200).json(req.file.path);
+    await owner.save();
+    return res.status(200).json(req.file.path);
   } catch (error) {
-    res.status(500).json(error);
+    return res.status(500).json(error);
   }
 };
 
