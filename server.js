@@ -18,8 +18,8 @@ const port = process.env.PORT || 2001;
 app.listen(process.env.PORT || 2001, () => console.log(port));
 
 //routes
-const users = require("./routes/users/userRouter");
-const login = require("./routes/authUsers/loginRouter");
+const users = require("./routes/adminUsers/userRouter");
+const login = require("./routes/authAdminUsers/loginRouter");
 const posSystems = require("./routes/posSystems/posSystemRouter");
 
 app.use("/api/users", users);
