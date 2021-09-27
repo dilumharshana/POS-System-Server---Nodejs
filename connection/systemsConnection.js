@@ -19,7 +19,8 @@ const connection = async (url) => {
       }
     );
 
-    const systemModel = con.model("system", system);
+    //register model with connection
+    con.model("system", system);
 
     return con && con;
   } catch (error) {

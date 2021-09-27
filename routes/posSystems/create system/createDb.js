@@ -6,7 +6,7 @@ let client = null;
 let newDataBaseName = null;
 const NEW_DATABASE_CREATOR_URL = process.env.NEW_DATABASE_CREATOR_URL;
 
-//gen ne2 db name
+//genarate new db name
 const generateDbName = () => Math.floor(Math.random() * 10000000);
 
 const createDb = async () => {

@@ -13,20 +13,22 @@ const createSystem = async (req, res) => {
     //get new db name
     const newDataBaseName = await createDb();
 
-    //settting up new db
+    //get connection to new db
     con = await connection(newDataBaseName);
 
+    //getting registed models from the connections
+    //in here " system " model
     const {
       models: { system },
     } = con;
 
-    //request body contains name , password and system user id
+    //insertind system details document to created db using above model
     const { name, password } = await system.create(req.body);
 
     //updating user with new db
     const { owner } = req.body;
     const Systemowner = await user.findOne({ _id: owner });
-    Systemowner.possystems.unshift({ id: newDataBaseName, name, password });
+    Systemowner.possystems.unshift({ id: newDataBaseName, name });
 
     //recording new db
     Systemowner.activities.unshift({
