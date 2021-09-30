@@ -5,6 +5,7 @@ const removeSystem = require("./remove system/removeSystem");
 const removePermenently = require("./remove system/removePermenently");
 const restoreSystem = require("./restore System/restoreSystem");
 const chechSystemPassword = require("./system password check/systemPasswordCheck");
+const getSystem = require("./get system/getSystem");
 
 //create System
 router.route("/create").post(createSystem);
@@ -19,6 +20,9 @@ router.route("/removeExact").post(removePermenently);
 router.route("/restore").post(restoreSystem);
 
 //check systems password
-router.post("/authsystem", chechSystemPassword);
+router.route("/authsystem").post(chechSystemPassword);
+
+//get system
+router.route("/:id").get(getSystem);
 
 module.exports = router;

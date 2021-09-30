@@ -23,7 +23,13 @@ const createSystem = async (req, res) => {
     } = con;
 
     //insertind system details document to created db using above model
-    const { name, password } = await system.create(req.body);
+    //(name, owner, password, type ,isPremium ,isActivated) = req.body
+
+    //appending new database name in to req.body object
+    req.body.nameId = newDataBaseName;
+
+    //saving new system details in new system
+    const { name } = await system.create(req.body);
 
     //updating user with new db
     const { owner } = req.body;

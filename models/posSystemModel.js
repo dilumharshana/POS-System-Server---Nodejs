@@ -4,6 +4,9 @@ require("dotenv").config();
 
 const system = new mongoose.Schema(
   {
+    nameId: {
+      type: String,
+    },
     name: {
       type: String,
       required: true,

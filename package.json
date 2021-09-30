@@ -10,6 +10,7 @@
   "author": "Dilum Harshana",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.998.0",
     "axios": "^0.21.1",
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",

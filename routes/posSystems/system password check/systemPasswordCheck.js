@@ -1,4 +1,4 @@
-const { MongoClient } = require("mongodb");
+const systemAvailability = require("../system availability/availability");
 const bcrypt = require("bcrypt");
 require("dotenv").config();
 
@@ -6,22 +6,13 @@ require("dotenv").config();
 const connection = require("../../../connection/systemsConnection");
 
 const systemPasswordCheck = async (req, res) => {
-  let mongodbCon = null;
   let con = null;
 
   try {
     const { dbName, password } = req.body;
 
-    //connecting to mongodb
-    mongodbCon = await MongoClient.connect(process.env.MONGODB_URL);
-
-    //getting available databse list
-    const { databases } = await mongodbCon.db().admin().listDatabases();
-
-    //check if required db is available in db
-    const availability = databases.some(
-      (database) => database.name === dbName.toString()
-    );
+    //cheking for system availability
+    availability = await systemAvailability(dbName.toString());
 
     //if system is not available
     if (!availability) return res.status(404).json("System not available");
@@ -49,7 +40,6 @@ const systemPasswordCheck = async (req, res) => {
     return res.status(500).json(error);
   } finally {
     con.close();
-    mongodbCon.close();
   }
 };
 
