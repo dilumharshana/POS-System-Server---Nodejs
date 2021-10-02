@@ -21,10 +21,12 @@ app.listen(process.env.PORT || 2001, () => console.log(port));
 const users = require("./routes/adminUsers/userRouter");
 const login = require("./routes/authAdminUsers/loginRouter");
 const posSystems = require("./routes/posSystems/posSystemRouter");
+const usePosApp = require("./SYSTEM/routes/routes");
 
 app.use("/api/users", users);
 app.use("/api/login", login);
 app.use("/api/possystems", posSystems);
+app.use("/api/useposapp", usePosApp);
 
 app.use(notFound);
 app.use(errHandler);
