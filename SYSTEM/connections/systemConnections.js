@@ -9,7 +9,7 @@ const connection = async (systemID) => {
   try {
     //creating new connection
     con = await mongoose.createConnection(
-      `${process.env.NEW_DATABASE_CREATOR_URL}/${systemID}`,
+      `${process.env.NEW_DATABASE_CREATOR_URL}/${systemID.toString()}`,
       {
         useCreateIndex: true,
         useNewUrlParser: true,
@@ -21,7 +21,9 @@ const connection = async (systemID) => {
     con.model("stock", stock);
 
     return con && con;
-  } catch (error) {}
+  } catch (error) {
+    return error;
+  }
 };
 
 module.exports = connection;

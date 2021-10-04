@@ -4,6 +4,7 @@ const stock = mongoose.Schema({
   itemCode: {
     type: String,
     requried: true,
+    unique: true,
   },
   itemName: {
     type: String,

@@ -17,8 +17,6 @@ const systemAvailability = async (dbName) => {
     return availability;
   } catch (error) {
     return error;
-  } finally {
-    mongodbCon.close();
   }
 };
 

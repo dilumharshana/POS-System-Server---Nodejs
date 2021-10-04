@@ -1,4 +1,4 @@
-const systemAvailability = require("../system availability/availability");
+const systemAvailability = require("../system availability/systemAvailability");
 const bcrypt = require("bcrypt");
 require("dotenv").config();
 
@@ -12,7 +12,7 @@ const systemPasswordCheck = async (req, res) => {
     const { dbName, password } = req.body;
 
     //cheking for system availability
-    availability = await systemAvailability(dbName.toString());
+    const availability = await systemAvailability(dbName.toString());
 
     //if system is not available
     if (!availability) return res.status(404).json("System not available");
@@ -39,7 +39,7 @@ const systemPasswordCheck = async (req, res) => {
   } catch (error) {
     return res.status(500).json(error);
   } finally {
-    con.close();
+    con && con.close();
   }
 };
 

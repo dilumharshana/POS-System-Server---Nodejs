@@ -1,5 +1,5 @@
 const connection = require("../../../connection/systemsConnection");
-const systemAvailability = require("../system availability/availability");
+const systemAvailability = require("../system availability/systemAvailability");
 
 const getSystem = async (req, res) => {
   try {
@@ -15,11 +15,13 @@ const getSystem = async (req, res) => {
     } = await connection(req.params.id.toString());
 
     //fetching system data
-    const [systemData] = await system.find();
+    const {
+      _doc: { password, ...systemData },
+    } = await system.findOne();
 
     res.status(200).json(systemData);
   } catch (error) {
-    return res.status(404).json("System not available");
+    return res.status(404).json(error);
   }
 };
 
