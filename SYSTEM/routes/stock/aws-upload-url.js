@@ -3,7 +3,7 @@ require("dotenv").config();
 
 //congig data for aws bucket
 const region = "ap-south-1";
-const Bucket = "dilumharshana";
+const Bucket = "appstockimages";
 const accessKeyId = process.env.AWS_ACCESS_KEY;
 const secretAccessKey = process.env.AWS_SECRET_KEY;
 
@@ -29,6 +29,7 @@ const generateUploadUrl = async (req, res) => {
     //sending generated url to frontend
     res.status(200).json(url);
   } catch (error) {
+    console.log(error);
     res.status(500).json(error);
   }
 };

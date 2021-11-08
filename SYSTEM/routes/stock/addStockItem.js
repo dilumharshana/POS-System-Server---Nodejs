@@ -13,6 +13,7 @@ const addStockItem = async (req, res) => {
     const newItem = await stock.create(itemData);
     res.status(200).json(newItem);
   } catch (error) {
+    console.log(error);
     res.status(404).json(error);
   }
 };

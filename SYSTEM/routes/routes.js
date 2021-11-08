@@ -3,8 +3,10 @@ const router = require("express").Router();
 //routes
 const generateImageUploadUrl = require("./stock/aws-upload-url");
 const addStockItem = require("./stock/addStockItem");
+const deleteItem = require("./stock/deleteStockItem");
 
-router.get("/generateImageUploadUrl/:name", generateImageUploadUrl);
-router.post("/addItem", addStockItem);
+router.get("/stock/generateImageUploadUrl/:name", generateImageUploadUrl);
+router.post("/stock/addItem", addStockItem);
+router.post("/stock/remove", deleteItem);
 
 module.exports = router;
