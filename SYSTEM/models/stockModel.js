@@ -25,6 +25,10 @@ const stock = mongoose.Schema({
   itemImage: {
     type: String,
   },
+  hidden: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 module.exports = stock;
