@@ -1,3 +1,4 @@
+const { Decimal128 } = require("mongodb");
 const mongoose = require("mongoose");
 
 const stock = mongoose.Schema({
@@ -23,6 +24,9 @@ const stock = mongoose.Schema({
     requried: true,
   },
   itemImage: {
+    type: String,
+  },
+  description: {
     type: String,
   },
   hidden: {

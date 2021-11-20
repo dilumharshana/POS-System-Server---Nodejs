@@ -22,6 +22,7 @@ const getSystemStock = async (req, res) => {
     } = con;
 
     const result = await stock.find();
+
     res.status(200).json(result);
   } catch (error) {
     console.log(error);
