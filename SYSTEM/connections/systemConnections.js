@@ -5,7 +5,6 @@ require("dotenv").config();
 const stock = require("../models/stockModel");
 
 const connection = async (systemNamenameId) => {
-  console.log(systemNamenameId);
   let con;
   try {
     //creating new connection
